@@ -9,7 +9,6 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
 
-
 // ROUTES
 const postsRoute = require('./routes/posts');
 app.use('/api/posts', postsRoute);
@@ -30,4 +29,8 @@ mongoose.connect(
   }
 );
 
-app.listen(3000);
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 8000;
+}
+app.listen(port);
