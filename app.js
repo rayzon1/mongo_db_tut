@@ -1,3 +1,4 @@
+// DEPENDENCIES
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -17,9 +18,9 @@ app.use(cors());
 const postsRoute = require('./routes/posts');
 app.use('/api/posts', postsRoute);
 
-app.get('*', (request, response) => {
-	response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
+// app.get('*', (request, response) => {
+// 	response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+// });
 
 app.get("/", (req, res) => {
   res.json({
