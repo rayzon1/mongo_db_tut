@@ -47,7 +47,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// UPDATE A POST
+// UPDATE A SINGLE POST
 router.patch("/:id", async (req, res) => {
   try {
     await Post.updateOne(
