@@ -52,9 +52,9 @@ router.patch("/:id", async (req, res) => {
   try {
     await Post.updateOne(
       { _id: req.params.id },
-      { $set: { title: req.body.title } }
+      { $set: { title: req.body.title, description: req.body.description } },
     );
-    res.status(204);
+    res.status(204).json({message: `Post ${req.params.id} updated!`});
   } catch (error) {
     res.status(404).json({ error });
   }

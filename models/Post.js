@@ -9,7 +9,7 @@ const PostSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    price: {
+    timestamp: {
         type: Date,
         default: Date.now
     }
