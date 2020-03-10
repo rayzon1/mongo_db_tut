@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Post = require("../models/Post");
+const beautify = require('js-beautify').js
 
 // GETS ALL POSTS
 router.get("/", async (req, res) => {
@@ -27,7 +28,7 @@ router.post("/", async (req, res) => {
   const post = new Post({
     title: req.body.title,
     description: req.body.description,
-    code: req.body.code,
+    code: beautify(req.body.code),
   });
 
   try {
@@ -53,7 +54,7 @@ router.patch("/:id", async (req, res) => {
   try {
     await Post.updateOne(
       { _id: req.params.id },
-      { $set: { title: req.body.title, description: req.body.description, code: req.body.code } },
+      { $set: { title: req.body.title, description: req.body.description, code: beautify(req.body.code) } },
     );
     res.status(204).json({message: `Post ${req.params.id} updated!`});
   } catch (error) {
