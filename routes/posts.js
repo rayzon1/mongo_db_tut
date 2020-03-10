@@ -26,7 +26,8 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   const post = new Post({
     title: req.body.title,
-    description: req.body.description
+    description: req.body.description,
+    code: req.body.code,
   });
 
   try {
@@ -52,7 +53,7 @@ router.patch("/:id", async (req, res) => {
   try {
     await Post.updateOne(
       { _id: req.params.id },
-      { $set: { title: req.body.title, description: req.body.description } },
+      { $set: { title: req.body.title, description: req.body.description, code: req.body.code } },
     );
     res.status(204).json({message: `Post ${req.params.id} updated!`});
   } catch (error) {
