@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Post = require("../models/Post");
-const beautify = require('js-beautify').js
+const authenticateUser = require("./middleware/authentication");
+const beautify = require("js-beautify").js;
 
 // GETS ALL POSTS
 router.get("/", async (req, res) => {
@@ -24,11 +25,11 @@ router.get("/:id", async (req, res) => {
 });
 
 // SUBMITS A POST
-router.post("/", async (req, res) => {
+router.post("/", authenticateUser, async (req, res) => {
   const post = new Post({
     title: req.body.title,
     description: req.body.description,
-    code: beautify(req.body.code),
+    code: beautify(req.body.code)
   });
 
   try {
@@ -40,7 +41,7 @@ router.post("/", async (req, res) => {
 });
 
 // DELETE A POST
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authenticateUser, async (req, res) => {
   try {
     await Post.remove({ _id: req.params.id });
     res.json({ message: `Post ${req.params.id} removed!` });
@@ -50,13 +51,19 @@ router.delete("/:id", async (req, res) => {
 });
 
 // UPDATE A SINGLE POST
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", authenticateUser, async (req, res) => {
   try {
     await Post.updateOne(
       { _id: req.params.id },
-      { $set: { title: req.body.title, description: req.body.description, code: beautify(req.body.code) } },
+      {
+        $set: {
+          title: req.body.title,
+          description: req.body.description,
+          code: beautify(req.body.code)
+        }
+      }
     );
-    res.status(204).json({message: `Post ${req.params.id} updated!`});
+    res.status(204).json({ message: `Post ${req.params.id} updated!` });
   } catch (error) {
     res.status(404).json({ error });
   }

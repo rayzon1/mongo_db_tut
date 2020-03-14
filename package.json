@@ -9,12 +9,16 @@
   "author": "Gerardo a. Keys",
   "license": "MIT",
   "dependencies": {
+    "basic-auth": "^2.0.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "env": "^0.0.2",
     "express": "^4.17.1",
+    "global": "^4.4.0",
     "js-beautify": "^1.10.3",
+    "mongo-seeding-cli": "^3.4.0",
     "mongoose": "^5.9.1",
     "nodemon": "^2.0.2"
   }

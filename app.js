@@ -4,12 +4,16 @@ const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const Users = require('./models/Users');
+const admin = require('./seed/admin');
+
 require('dotenv/config');
 
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('client/build'));
 }
 
+// MIDDLEWARE
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
@@ -18,9 +22,6 @@ app.use(cors());
 const postsRoute = require('./routes/posts');
 app.use('/api/posts', postsRoute);
 
-// app.get('*', (request, response) => {
-// 	response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-// });
 
 app.get("/", (req, res) => {
   res.json({
@@ -34,8 +35,15 @@ app.get("/", (req, res) => {
 mongoose.connect(
   process.env.DB_CONNECTION,
   { useNewUrlParser: true, useUnifiedTopology: true },
-  () => {
-    console.log("Connected to DB");
+  async() => {
+    await mongoose.connection.dropCollection('users', async(err) => {
+      if(err) {
+        console.log(err)
+      }
+      await Users.create(admin);
+      console.log("Connected to DB");
+    });
+    
   }
 );
 
