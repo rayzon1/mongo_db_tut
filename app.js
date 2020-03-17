@@ -20,7 +20,9 @@ app.use(cors());
 
 // ROUTES
 const postsRoute = require('./routes/posts');
+const usersRoute = require('./routes/users');
 app.use('/api/posts', postsRoute);
+app.use('/api/users', usersRoute);
 
 
 app.get("/", (req, res) => {
