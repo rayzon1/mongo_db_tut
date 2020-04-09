@@ -26,10 +26,16 @@ router.get("/:id", async (req, res) => {
 
 // SUBMITS A POST
 router.post("/", authenticateUser, async (req, res) => {
+
+  //TODO: EXTRACT CODE PORTION FROM DESCPRIPTION USING REGEX.
+  const regex = /\[c](.*?)\[\/c]/;
+  const description = req.body.description;
+  const matched = description.match(regex)[1];
+  const replaced = description.replace(regex, "[c]" + beautify(matched) + "[/c]");
+
   const post = new Post({
     title: req.body.title,
-    description: req.body.description,
-    code: beautify(req.body.code)
+    description: replaced,
   });
 
   try {
