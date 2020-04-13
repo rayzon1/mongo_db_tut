@@ -31,11 +31,11 @@ router.post("/", authenticateUser, async (req, res) => {
   const regex = /\[c](.*?)\[\/c]/;
   const description = req.body.description;
   const matched = description.match(regex)[1];
-  const replaced = description.replace(regex, '<Highlight language={"javascript"} className="blog-main__code">' + beautify(matched) + '</Highlight>');
+  const replaced = description.replace(regex, matched);
 
   const post = new Post({
     title: req.body.title,
-    description: replaced,
+    description: description,
   });
 
   try {
