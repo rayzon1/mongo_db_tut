@@ -4,6 +4,7 @@ const Post = require("../models/Post");
 const authenticateUser = require("./middleware/authentication");
 const beautify = require("js-beautify").js;
 
+
 // GETS ALL POSTS
 router.get("/", async (req, res) => {
   try {
@@ -26,6 +27,22 @@ router.get("/:id", async (req, res) => {
 
 // SUBMITS A POST
 router.post("/", authenticateUser, async (req, res) => {
+
+  //TODO: CAPTURE CONTENT BETWEEN THE CODE TAGS
+
+  const captureContent = (text) => {
+    // Captures code snippets
+    const regex = /\[c]([\s\S]*?)\[\/c]/g;
+    
+    // Match code
+    let matched = text.matchAll(regex);
+    const beautyMatches = [...matched].map(d => beautify(d[1]));
+
+    return beautyMatches;    
+  }
+
+  console.log(captureContent(req.body.description));
+
   const post = new Post({
     title: req.body.title,
     description: req.body.description,
