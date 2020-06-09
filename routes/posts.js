@@ -45,8 +45,7 @@ router.post("/", authenticateUser, async (req, res) => {
 
   const post = new Post({
     title: req.body.title,
-    description: req.body.description,
-    code: beautify(req.body.code)
+    description: beautify(replaced),
   });
 
   try {
@@ -77,7 +76,7 @@ router.patch("/:id", authenticateUser, async (req, res) => {
           title: req.body.title,
           description: req.body.description,
           code: beautify(req.body.code)
-        }
+        } 
       }
     );
     res.status(204).json({ message: `Post ${req.params.id} updated!` });
