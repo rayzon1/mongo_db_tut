@@ -41,11 +41,10 @@ router.post("/", authenticateUser, async (req, res) => {
     return beautyMatches;    
   }
 
-  console.log(captureContent(req.body.description));
-
   const post = new Post({
     title: req.body.title,
-    description: beautify(replaced),
+    description: req.body.description,
+    code: captureContent(req.body.description)
   });
 
   try {
@@ -59,7 +58,7 @@ router.post("/", authenticateUser, async (req, res) => {
 // DELETE A POST
 router.delete("/:id", authenticateUser, async (req, res) => {
   try {
-    await Post.remove({ _id: req.params.id });
+    await Post.deleteOne({ _id: req.params.id });
     res.json({ message: `Post ${req.params.id} removed!` });
   } catch (error) {
     res.status(404).json({ error });
