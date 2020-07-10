@@ -4,6 +4,18 @@ const Post = require("../models/Post");
 const authenticateUser = require("./middleware/authentication");
 const beautify = require("js-beautify").js;
 
+// BEAUTIFY HELPER FUNCTION
+
+const captureContent = (text) => {
+  // Captures code snippets
+  const regex = /\[c]([\s\S]*?)\[\/c]/g;
+
+  // Match code
+  let matched = text.matchAll(regex);
+  const beautyMatches = [...matched].map((d) => beautify(d[1]));
+
+  return beautyMatches;
+};
 
 // GETS ALL POSTS
 router.get("/", async (req, res) => {
@@ -27,24 +39,21 @@ router.get("/:id", async (req, res) => {
 
 // SUBMITS A POST
 router.post("/", authenticateUser, async (req, res) => {
+  // const captureContent = (text) => {
+  //   // Captures code snippets
+  //   const regex = /\[c]([\s\S]*?)\[\/c]/g;
 
-  //TODO: CAPTURE CONTENT BETWEEN THE CODE TAGS
+  //   // Match code
+  //   let matched = text.matchAll(regex);
+  //   const beautyMatches = [...matched].map(d => beautify(d[1]));
 
-  const captureContent = (text) => {
-    // Captures code snippets
-    const regex = /\[c]([\s\S]*?)\[\/c]/g;
-    
-    // Match code
-    let matched = text.matchAll(regex);
-    const beautyMatches = [...matched].map(d => beautify(d[1]));
-
-    return beautyMatches;    
-  }
+  //   return beautyMatches;
+  // }
 
   const post = new Post({
     title: req.body.title,
     description: req.body.description,
-    code: captureContent(req.body.description)
+    code: captureContent(req.body.description),
   });
 
   try {
@@ -74,8 +83,8 @@ router.patch("/:id", authenticateUser, async (req, res) => {
         $set: {
           title: req.body.title,
           description: req.body.description,
-          code: beautify(req.body.code)
-        } 
+          code: captureContent(req.body.description),
+        },
       }
     );
     res.status(204).json({ message: `Post ${req.params.id} updated!` });
