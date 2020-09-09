@@ -39,16 +39,6 @@ router.get("/:id", async (req, res) => {
 
 // SUBMITS A POST
 router.post("/", authenticateUser, async (req, res) => {
-  // const captureContent = (text) => {
-  //   // Captures code snippets
-  //   const regex = /\[c]([\s\S]*?)\[\/c]/g;
-
-  //   // Match code
-  //   let matched = text.matchAll(regex);
-  //   const beautyMatches = [...matched].map(d => beautify(d[1]));
-
-  //   return beautyMatches;
-  // }
 
   const post = new Post({
     title: req.body.title,
